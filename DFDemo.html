@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kitten Tea Shop ☕🐱</title>
+  <style>
+    :root{
+      --bg:#fff8f2;
+      --card:#fff;
+      --accent:#ff8fb1;
+      --muted:#80606a;
+      --shadow: 0 6px 18px rgba(133,102,114,0.12);
+      font-family: 'Segoe UI', Roboto, -apple-system, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#fff8f2 0%, #fff0e9 100%);color:#3a2b2f}
+    header{padding:32px 20px 8px;display:flex;align-items:center;gap:16px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ffd6e8,#ffeccf);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--shadow)}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+    main{max-width:980px;margin:24px auto;padding:20px}
+    .hero{display:flex;gap:20px;align-items:center}
+    .hero .intro{flex:1}
+    .hero h2{font-size:32px;margin:0}
+    .hero p{color:var(--muted);margin-top:8px}
+
+    .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:18px}
+    .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+    .card h3{margin:0;font-size:18px}
+    .price{margin-left:auto;font-weight:700;color:var(--accent)}
+    .kitten-row{display:flex;align-items:center;gap:10px}
+
+    footer{max-width:980px;margin:30px auto;padding:16px;color:var(--muted);font-size:14px}
+
+    .cta{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),#f7b6d0);color:white;border:none;cursor:pointer;font-weight:600;box-shadow:0 8px 30px rgba(255,141,177,0.25)}
+
+    .cute-bubble{position:fixed;right:20px;bottom:20px;background:linear-gradient(180deg,#fff,#fff4f8);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center}
+    .heart{font-size:20px;cursor:pointer}
+
+    /* small responsive tweaks */
+    @media (max-width:640px){
+      .hero{flex-direction:column;align-items:flex-start}
+      .logo .mark{width:48px;height:48px}
+      h2{font-size:26px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="mark">🐾</div>
+      <div>
+        <h1>Kitten Tea Shop</h1>
+        <p class="lead">tiny cups, big purrs — a cozy corner for humans and kitties ☕🐱</p>
+      </div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+      <button class="cta" id="orderBtn">Order a Treat</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="intro">
+        <h2>Welcome to our cozy, kitten-run tea shop</h2>
+        <p>We serve tiny tea, tiny biscuits, and enormous cuddles. Click the little heart to send a kitty a smooch!</p>
+
+        <div class="menu" aria-label="menu">
+          <article class="card">
+            <div class="kitten-row">
+              <h3>Chai Meow-latte</h3>
+              <div class="price">$4.50</div>
+            </div>
+            <p class="muted">Spiced warmth with a swirl of foam and a paw-scribbled cinnamon heart.</p>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <small>Served by: Miso 🐱</small>
+              <button onclick="addToCart('Chai Meow-latte')">Add</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="kitten-row">
+              <h3>Salty-sweet Tuna Biscuit</h3>
+              <div class="price">$2.20</div>
+            </div>
+            <p class="muted">Crunchy on the outside, dreamy on the inside. Human-friendly recipe.</p>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <small>Served by: Lulu 🐾</small>
+              <button onclick="addToCart('Tuna Biscuit')">Add</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="kitten-row">
+              <h3>Moonbeam Milk</h3>
+              <div class="price">$3.00</div>
+            </div>
+            <p class="muted">A frothy, slightly vanilla milk — perfect before an afternoon nap.</p>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <small>Served by: Nori 💤</small>
+              <button onclick="addToCart('Moonbeam Milk')">Add</button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div style="width:220px">
+        <div class="card" style="text-align:center">
+          <div style="font-size:56px">😺</div>
+          <h3 style="margin:6px 0 0">Today's cuddle count</h3>
+          <p id="cuddleCount" style="font-size:22px;margin:6px 0">0 cuddles</p>
+          <button class="cta" onclick="giveCuddle()">Give a cuddle 💖</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:20px">
+      <div class="card">
+        <h3>About our tiny shop</h3>
+        <p style="color:var(--muted);margin:8px 0">We started as a window-sill dream — now we're a tiny hub for warm drinks and softer mews. A portion of all treats goes to local shelters.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="cute-bubble" role="status" aria-live="polite">
+    <div style="font-size:20px">🐱</div>
+    <div>
+      <div style="font-weight:700">Purr-meter</div>
+      <div style="font-size:13px;color:var(--muted)">Tap the paw to cheer a kitten!</div>
+    </div>
+    <div style="margin-left:12px">
+      <span class="heart" id="pawBtn" title="Send a smooch">💟</span>
+    </div>
+  </div>
+
+  <footer>
+    Made with ❤️ by the Kitten Tea Shop. <br> Tip: press the 'Order a Treat' button to see a little surprise.
+  </footer>
+
+  <script>
+    let cuddles = 0;
+    const cuddleEl = document.getElementById('cuddleCount');
+    const pawBtn = document.getElementById('pawBtn');
+    const orderBtn = document.getElementById('orderBtn');
+
+    function giveCuddle(){
+      cuddles += 1;
+      cuddleEl.textContent = `${cuddles} cuddle${cuddles===1? '':'s'}`;
+      pulse(pawBtn);
+    }
+
+    function addToCart(item){
+      alert(item + ' added to your cosy tray!');
+      giveCuddle();
+    }
+
+    pawBtn.addEventListener('click', ()=>{
+      giveCuddle();
+      showToast('Kitten purrs loudly. Thank you!');
+    });
+
+    orderBtn.addEventListener('click', ()=>{
+      showToast('A little kitten zipped your order to the kitchen!');
+      giveCuddle();
+    });
+
+    function pulse(el){
+      el.animate([
+        {transform:'scale(1)'},
+        {transform:'scale(1.15)'},
+        {transform:'scale(1)'}
+      ],{duration:350,easing:'ease-out'});
+    }
+
+    function showToast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.position='fixed';
+      t.style.left='50%';
+      t.style.transform='translateX(-50%)';
+      t.style.bottom='90px';
+      t.style.padding='10px 14px';
+      t.style.background='rgba(255,255,255,0.95)';
+      t.style.borderRadius='10px';
+      t.style.boxShadow='0 6px 18px rgba(0,0,0,0.08)';
+      t.style.fontWeight='600';
+      document.body.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';t.addEventListener('transitionend',()=>t.remove());},1200);
+    }
+  </script>
+</body>
+</html>
